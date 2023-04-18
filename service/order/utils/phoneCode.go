@@ -34,7 +34,7 @@ func createClient(accessKeyId *string, accessKeySecret *string) (_result *dysmsa
 
 func GetPhoneCode(phone string) (randCode string, _err error) {
 	// 工程代码泄露可能会导致AccessKey泄露，并威胁账号下所有资源的安全性。以下代码示例仅供参考，建议使用更安全的 STS 方式，更多鉴权访问方式请参见：https://help.aliyun.com/document_detail/378661.html
-	client, _err := createClient(tea.String("LTAI5tEbQZkSojBWPMriEWGD"), tea.String("kpA7k4wHuqbbihgG5WuIUf0BIL09wJ"))
+	client, _err := createClient(tea.String("***"), tea.String("***"))
 	if _err != nil {
 		return "", _err
 	}
@@ -43,7 +43,7 @@ func GetPhoneCode(phone string) (randCode string, _err error) {
 		PhoneNumbers:  tea.String(phone),
 		TemplateParam: tea.String(`{"code":"` + randCode + `"}`),
 		SignName:      tea.String("bj38租房网"),
-		TemplateCode:  tea.String("SMS_272640573"),
+		TemplateCode:  tea.String("***"),
 	}
 	runtime := &util.RuntimeOptions{}
 	tryErr := func() (_e error) {
