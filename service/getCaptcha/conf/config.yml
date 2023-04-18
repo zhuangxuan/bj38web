@@ -1,0 +1,25 @@
+# 微服务配置
+server:
+  domain: "GetCaptcha"
+  version: 1.0
+  jwtSecret: 38324
+  grpcAddress: "getcaptcha_srv:3000" #不同微服务记得修改端口号
+
+etcd:
+  address: "etcd-server:2379"
+
+captcha:
+  # 验证码字符数
+  num: 4
+  # 验证码字符类型 0是纯数字类型
+  strType: 0
+
+redis:
+  host: "redis"
+  port: 6379
+  password: ""
+  db: 0
+  pool_size: 100
+  min_idle_conns: 50
+  max_conn_age: 300 #second
+  idle_timeout: 60 #second

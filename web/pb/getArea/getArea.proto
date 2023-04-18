@@ -1,0 +1,19 @@
+syntax = "proto3";
+option go_package = "../getArea;getArea";
+package getArea;
+
+service GetArea {
+    rpc MicroGetArea(Request) returns (Response);
+}
+
+// 地域信息请求消息
+message Request{
+}
+
+// 地域信息响应消息
+message Response{
+    // 微服务返回的错误码和消息响应
+    string errno =1;
+    string errmsg=2;
+    string area=3;  //地域信息json字符串
+}

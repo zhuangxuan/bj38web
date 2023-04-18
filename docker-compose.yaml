@@ -1,0 +1,91 @@
+# yaml 配置
+version: "3.7"
+services:
+  mysql8019:
+    image: "mysql:8.0.19"
+    ports:
+      - "33061:3306"
+    command: "--default-authentication-plugin=mysql_native_password --init-file /data/application/init.sql"
+    environment:
+      MYSQL_ROOT_PASSWORD: "123456"
+      MYSQL_DATABASE: "bj38web"
+      MYSQL_PASSWORD: "123456"
+    volumes:
+      - ./init.sql:/data/application/init.sql
+  redis:
+    container_name: redis
+    image: redis:5.0.7
+    ports:
+      - "6379:6379"
+    restart: always
+  etcd-server:
+    image: bitnami/etcd:latest
+    container_name: etcd-server
+    environment:
+      - TZ=Asia/Shanghai
+      - ALLOW_NONE_AUTHENTICATION=yes
+    ports: # 设置端口映射
+      - "2379:2379"
+    restart: always
+
+  web:
+    container_name: web
+    build: ./web
+    #command: "./getCaptcha_srv"
+    depends_on:
+      - getcaptcha_srv
+      - getarea_srv
+      - house_srv
+      - order_srv
+      - user_srv
+      - mysql8019
+    ports:
+      - "8080:8080"
+    links:
+      - mysql8019:mysql8019
+
+  getcaptcha_srv:
+    container_name: getcaptcha_srv
+    build: ./service/getCaptcha
+    depends_on:
+      - mysql8019
+      - redis
+      - etcd-server
+    ports:
+      - "3000:3000"
+  getarea_srv:
+    container_name: getarea_srv
+    build: ./service/getArea
+    depends_on:
+      - mysql8019
+      - redis
+      - etcd-server
+    ports:
+      - "3002:3002"
+  house_srv:
+    container_name: house_srv
+    build: ./service/house
+    depends_on:
+      - mysql8019
+      - redis
+      - etcd-server
+    ports:
+      - "3003:3003"
+  order_srv:
+    container_name: order_srv
+    build: ./service/order
+    depends_on:
+      - mysql8019
+      - redis
+      - etcd-server
+    ports:
+      - "3004:3004"
+  user_srv:
+    container_name: user_srv
+    build: ./service/user
+    depends_on:
+      - mysql8019
+      - redis
+      - etcd-server
+    ports:
+      - "3001:3001"

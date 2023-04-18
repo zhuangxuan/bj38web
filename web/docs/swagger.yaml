@@ -1,0 +1,538 @@
+basePath: /api/v1.0
+definitions:
+  controller.Comment:
+    properties:
+      comment:
+        type: string
+      order_id:
+        type: string
+    type: object
+  controller.HouseStu:
+    properties:
+      acreage:
+        type: string
+      address:
+        type: string
+      area_id:
+        type: string
+      beds:
+        type: string
+      capacity:
+        type: string
+      deposit:
+        type: string
+      facility:
+        items:
+          type: string
+        type: array
+      max_days:
+        type: string
+      min_days:
+        type: string
+      price:
+        type: string
+      room_count:
+        type: string
+      title:
+        type: string
+      unit:
+        type: string
+    type: object
+host: 127.0.0.1:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: author：@ouzhsh
+    url: http://www.swagger.io/support
+  description: Go Web bj38web
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: bj38web
+  version: 0.0.1
+paths:
+  /api/v1.0/areas:
+    get:
+      consumes:
+      - application/json
+      description: 获取地域信息
+      parameters:
+      - description: 手机号
+        in: body
+        name: mobile
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 地域
+          schema:
+            type: string
+      summary: 获取地域信息
+      tags:
+      - 用户业务接口
+  /api/v1.0/house/index:
+    get:
+      consumes:
+      - application/json
+      description: 获取首页轮播图片服务
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 首页轮播图
+          schema:
+            type: string
+      summary: 获取首页轮播图片服务
+      tags:
+      - 获取首页轮播图片服务
+  /api/v1.0/houses:
+    get:
+      consumes:
+      - application/json
+      description: 搜索房屋
+      parameters:
+      - description: areaId
+        in: query
+        name: aid
+        required: true
+        type: string
+      - description: start day
+        in: query
+        name: sd
+        required: true
+        type: string
+      - description: end day
+        in: query
+        name: ed
+        required: true
+        type: string
+      - description: 排序方式
+        in: query
+        name: sk
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 房屋信息列表
+          schema:
+            type: string
+      summary: 搜索房屋
+      tags:
+      - 搜索房
+    post:
+      consumes:
+      - application/json
+      description: 发布房屋信息
+      parameters:
+      - description: 用户名
+        in: body
+        name: userName
+        required: true
+        schema:
+          type: string
+      - description: 房屋信息
+        in: body
+        name: HouseStu
+        required: true
+        schema:
+          $ref: '#/definitions/controller.HouseStu'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 信息
+          schema:
+            type: string
+      summary: 发布房屋信息
+      tags:
+      - 发布房屋信息
+  /api/v1.0/houses/:id:
+    get:
+      consumes:
+      - application/json
+      description: 展示房屋详情
+      parameters:
+      - description: 房屋号
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 房屋详情
+          schema:
+            type: string
+      summary: 展示房屋详情
+      tags:
+      - 展示房屋详情
+  /api/v1.0/houses/:id/images:
+    post:
+      consumes:
+      - application/json
+      description: 上传房屋图片
+      parameters:
+      - description: 图片号
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 信息
+          schema:
+            type: string
+      summary: 上传房屋图片
+      tags:
+      - 上传房屋图片
+  /api/v1.0/imagecode/:uuid:
+    get:
+      consumes:
+      - text/plain
+      description: 获取图片验证码
+      parameters:
+      - description: 路径变量参数
+        in: path
+        name: uuid
+        required: true
+        type: string
+      produces:
+      - image/png
+      responses:
+        "200":
+          description: 验证码
+          schema:
+            type: string
+      summary: 图片验证码
+      tags:
+      - 用户业务接口
+  /api/v1.0/orders:
+    post:
+      consumes:
+      - application/json
+      description: 下订单
+      parameters:
+      - description: 图片号
+        in: body
+        name: ordert
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 信息
+          schema:
+            type: string
+      summary: 下订单
+      tags:
+      - 下订单
+  /api/v1.0/orders/:id/comment:
+    put:
+      consumes:
+      - application/json
+      description: 订单评价
+      parameters:
+      - description: Comment
+        in: body
+        name: Comment
+        required: true
+        schema:
+          $ref: '#/definitions/controller.Comment'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 信息
+          schema:
+            type: string
+      summary: 订单评价
+      tags:
+      - 订单评价
+  /api/v1.0/orders/:id/status:
+    put:
+      consumes:
+      - application/json
+      description: 更新订单状态
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 信息
+          schema:
+            type: string
+      summary: 更新订单状态
+      tags:
+      - 更新订单状态
+  /api/v1.0/session:
+    delete:
+      description: 退出登录状态
+      parameters:
+      - description: 查询参数
+        in: formData
+        name: object
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 消息
+          schema:
+            type: string
+      summary: 退出登录状态
+      tags:
+      - 用户业务接口
+    get:
+      consumes:
+      - application/json
+      description: 获取session信息服务
+      parameters:
+      - description: 查询参数
+        in: query
+        name: object
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 用户名
+          schema:
+            type: string
+      summary: 用户会话
+      tags:
+      - 用户业务接口
+  /api/v1.0/sessions:
+    post:
+      consumes:
+      - application/json
+      description: 用户登录
+      parameters:
+      - description: 手机号
+        in: body
+        name: mobile
+        required: true
+        schema:
+          type: string
+      - description: 密码
+        in: body
+        name: password
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 消息
+          schema:
+            type: string
+      summary: 用户登录
+      tags:
+      - 用户业务接口
+  /api/v1.0/smscode/:mobile:
+    get:
+      consumes:
+      - text/plain
+      description: 获取短信验证码
+      parameters:
+      - description: 路径变量参数
+        in: path
+        name: phone
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 消息
+          schema:
+            type: string
+      summary: 短信验证码
+      tags:
+      - 用户业务接口
+  /api/v1.0/user:
+    get:
+      consumes:
+      - application/json
+      description: 获取用户信息
+      parameters:
+      - description: 用户名
+        in: query
+        name: userName
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 用户信息
+          schema:
+            type: string
+      summary: 获取用户信息
+      tags:
+      - 用户业务接口
+  /api/v1.0/user/auth:
+    post:
+      consumes:
+      - application/json
+      description: 用户实名认证
+      parameters:
+      - description: 真实姓名
+        in: body
+        name: real_name
+        required: true
+        schema:
+          type: string
+      - description: 身份证
+        in: body
+        name: id_card
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 信息
+          schema:
+            type: string
+      summary: 用户实名认证
+      tags:
+      - 用户实名认证
+  /api/v1.0/user/avatar:
+    post:
+      consumes:
+      - multipart/form-data
+      description: 上传用户头像
+      parameters:
+      - description: 用户名
+        in: formData
+        name: avatar
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 信息
+          schema:
+            type: string
+      summary: 上传用户头像
+      tags:
+      - 上传用户头像
+  /api/v1.0/user/houses:
+    get:
+      consumes:
+      - application/json
+      description: 获取用户发布的房源信息
+      parameters:
+      - description: 用户名
+        in: body
+        name: userName
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 信息
+          schema:
+            type: string
+      summary: 获取用户发布的房源信息
+      tags:
+      - 获取用户发布的房源信息
+  /api/v1.0/user/name:
+    put:
+      consumes:
+      - application/json
+      description: 修改用户名提交
+      parameters:
+      - description: 用户名
+        in: body
+        name: name
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 用户信息
+          schema:
+            type: string
+      summary: 修改用户名提交
+      tags:
+      - 修改用户名提交
+  /api/v1.0/user/orders:
+    get:
+      consumes:
+      - application/json
+      description: 获取订单信息
+      parameters:
+      - description: role
+        in: query
+        name: role
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 信息
+          schema:
+            type: string
+      summary: 获取订单信息
+      tags:
+      - 获取订单信息
+  /api/v1.0/users:
+    post:
+      consumes:
+      - application/json
+      description: 提交用户注册请求
+      parameters:
+      - description: 手机号
+        in: body
+        name: mobile
+        required: true
+        schema:
+          type: string
+      - description: 密码
+        in: body
+        name: password
+        required: true
+        schema:
+          type: string
+      - description: 验证码
+        in: body
+        name: sms_code
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 消息
+          schema:
+            type: string
+      summary: 提交用户注册请求
+      tags:
+      - 用户业务接口
+swagger: "2.0"

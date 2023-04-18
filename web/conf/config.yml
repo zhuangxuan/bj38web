@@ -1,0 +1,54 @@
+# 网关配置
+name: "bj38web"
+mode: "dev"
+port: 8080
+version: "v1.0"
+start_time: "2023-03-02"
+machine_id: 1
+
+service:
+  GetCaptcha: "GetCaptcha"
+  User: "User"
+  GetArea: "GetArea"
+  House: "House"
+  Order: "Order"
+
+etcd:
+  address: "etcd-server:2379"
+
+captcha:
+  # 验证码字符数
+  num: 4
+  # 验证码字符类型 0是纯数字类型
+  strType: 0
+
+redis:
+  host: "redis"
+  port: 6379
+  password: ""
+  db: 0
+  pool_size: 100
+  min_idle_conns: 50
+  max_conn_age: 300 #second
+  idle_timeout: 60 #second
+
+mysql:
+  host: "mysql8019"
+  port: 3306
+  username: "root"
+  password: "123456"
+  database: "bj38web"
+  charset: "utf8mb4"
+  max_open_conns: 100
+  max_idle_conns: 50
+  max_conn_lifetime: 60 #minute
+
+log:
+  level: "debug"
+  filename: "log/bj38web.log"
+  max_size: 200
+  max_age: 30
+  max_backups: 7
+
+auth:
+  jwt_expire: 168

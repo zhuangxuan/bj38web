@@ -1,0 +1,55 @@
+syntax = "proto3";
+option go_package = "../user;user";
+package user;
+
+service User {
+    rpc SendSms(Request) returns (Response);
+    rpc Register(RegReq) returns (Response);
+    rpc Login(RegReq)returns (Response);
+    rpc GetUserInfo(GetUserInfoReq)returns (GetUserInfoResp);
+    rpc PutUserInfo(PutUserInfoReq)returns (Response);
+    rpc SaveRealName(SaveRealNameReq)returns (Response);
+}
+
+// 保存用户实名信息
+message SaveRealNameReq{
+    string name = 1;
+    string realName = 2;
+    string idCard = 3;
+}
+
+// 修改用户名
+message PutUserInfoReq{
+    string oName = 1;
+    string name =2;
+}
+
+message GetUserInfoReq{
+    string name =1;
+}
+message GetUserInfoResp{
+    string errno =1;
+    string errmsg=2;
+    string user =3 ;    //json
+}
+
+// 用户注册请求消息
+message RegReq{
+    string mobile =1;
+    string password=2;
+    string smsCode=3;
+}
+
+// 发送验证码请求消息
+message Request{
+    string phone= 1;
+    string imgCode = 2;
+    string uuid = 3;
+}
+
+// 发送验证码响应消息 用户注册响应消息 的共同message
+message Response{
+    // 微服务返回的错误码和消息响应
+    string errno =1;
+    string errmsg=2;
+}
