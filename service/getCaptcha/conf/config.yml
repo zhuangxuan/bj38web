@@ -3,10 +3,12 @@ server:
   domain: "GetCaptcha"
   version: 1.0
   jwtSecret: 38324
-  grpcAddress: "getcaptcha_srv:3000" #不同微服务记得修改端口号
+#  grpcAddress: "getcaptcha_srv:3000" #不同微服务记得修改端口号
+  grpcAddress: "127.0.0.1:3000" #不同微服务记得修改端口号
 
 etcd:
-  address: "etcd-server:2379"
+#  address: "etcd-server:2379"
+  address: "127.0.0.1:2379"
 
 captcha:
   # 验证码字符数
@@ -15,7 +17,7 @@ captcha:
   strType: 0
 
 redis:
-  host: "redis"
+  host: "127.0.0.1"
   port: 6379
   password: ""
   db: 0

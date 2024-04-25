@@ -3,10 +3,12 @@ server:
   domain: House
   version: 1.0
   jwtSecret: 38324
-  grpcAddress: "house_srv:3003" #不同微服务记得修改端口号
+#  grpcAddress: "house_srv:3003" #不同微服务记得修改端口号
+  grpcAddress: "127.0.0.1:3003" #不同微服务记得修改端口号
 
 etcd:
-  address: "etcd-server:2379"
+#  address: "etcd-server:2379"
+  address: "127.0.0.1:2379"
 
 captcha:
   # 验证码字符数
@@ -15,7 +17,7 @@ captcha:
   strType: 0
 
 redis:
-  host: "redis"
+  host: "127.0.0.1"
   port: 6379
   password: ""
   db: 0
@@ -25,7 +27,7 @@ redis:
   idle_timeout: 60 #second
 
 mysql:
-  host: "mysql8019"
+  host: "127.0.0.1"
   port: 3306
   username: "root"
   password: "root"
