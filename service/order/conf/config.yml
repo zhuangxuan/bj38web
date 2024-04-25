@@ -28,7 +28,7 @@ mysql:
   host: "mysql8019"
   port: 3306
   username: "root"
-  password: "123456"
+  password: "root"
   database: "bj38web"
   charset: "utf8mb4"
   max_open_conns: 100
