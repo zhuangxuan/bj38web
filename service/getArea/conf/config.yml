@@ -4,9 +4,11 @@ server:
   version: 1.0
   jwtSecret: 38324
   grpcAddress: "getarea_srv:3002" #不同微服务记得修改端口号
+#  grpcAddress: "127.0.0.1:3002" #不同微服务记得修改端口号
 
 etcd:
-  address: "etcd-server:2379"
+#  address: "etcd-server:2379"
+  address: "127.0.0.1:2379"
 
 captcha:
   # 验证码字符数
@@ -15,7 +17,8 @@ captcha:
   strType: 0
 
 redis:
-  host: "redis"
+#  host: "redis"
+  host: "127.0.0.1"
   port: 6379
   password: ""
   db: 0
@@ -25,10 +28,11 @@ redis:
   idle_timeout: 60 #second
 
 mysql:
-  host: "mysql8019"
+#  host: "mysql8019"
+  host: "127.0.0.1"
   port: 3306
   username: "root"
-  password: "123456"
+  password: "root"
   database: "bj38web"
   charset: "utf8mb4"
   max_open_conns: 100
