@@ -8,7 +8,6 @@ package main
 import (
 	"fmt"
 	"house/auth/interceptor"
-	"house/auth/tls"
 	"house/conf"
 	"house/controller"
 	"house/dao/mysql"
@@ -50,10 +49,10 @@ func main() {
 	fmt.Println("mysql连接初始化完毕。。。")
 
 	// 初始化证书认证
-	credentials := tls.Init()
-	if credentials == nil {
-		fmt.Println("初始化证书认证失败:")
-	}
+	//credentials := tls.Init()
+	//if credentials == nil {
+	//	fmt.Println("初始化证书认证失败:")
+	//}
 
 	// 微服务监听地址
 	serverAddr := viper.GetString("server.grpcAddress")
@@ -69,7 +68,8 @@ func main() {
 	}
 
 	//创建grpc句柄
-	srv := grpc.NewServer(grpc.Creds(credentials), grpc.UnaryInterceptor(interceptor.AuthInterceptor))
+	//srv := grpc.NewServer(grpc.Creds(credentials), grpc.UnaryInterceptor(interceptor.AuthInterceptor))
+	srv := grpc.NewServer(grpc.UnaryInterceptor(interceptor.AuthInterceptor))
 	defer srv.Stop()
 
 	//将服务结构体注册到grpc服务中
