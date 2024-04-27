@@ -8,7 +8,6 @@ package main
 import (
 	"fmt"
 	"getCaptcha/auth/interceptor"
-	"getCaptcha/auth/tls"
 	"getCaptcha/conf"
 	"getCaptcha/controller"
 	myredis "getCaptcha/dao/redis"
@@ -98,11 +97,11 @@ func main() {
 	}
 	fmt.Println("redis连接初始化加载完毕。。。")
 
-	// 初始化证书认证
-	credentials := tls.Init()
-	if credentials == nil {
-		fmt.Println("初始化证书认证失败:")
-	}
+	//// 初始化证书认证
+	//credentials := tls.Init()
+	//if credentials == nil {
+	//	fmt.Println("初始化证书认证失败:")
+	//}
 
 	// 微服务监听地址
 	serverAddr := viper.GetString("server.grpcAddress")
@@ -118,7 +117,8 @@ func main() {
 	}
 
 	//创建grpc句柄
-	srv := grpc.NewServer(grpc.Creds(credentials), grpc.UnaryInterceptor(interceptor.AuthInterceptor))
+	//srv := grpc.NewServer(grpc.Creds(credentials), grpc.UnaryInterceptor(interceptor.AuthInterceptor))
+	srv := grpc.NewServer(grpc.UnaryInterceptor(interceptor.AuthInterceptor))
 	defer srv.Stop()
 
 	//将服务结构体注册到grpc服务中

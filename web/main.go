@@ -2,7 +2,6 @@ package main
 
 import (
 	"bj38web/web/auth/interceptor"
-	"bj38web/web/auth/tls"
 	"bj38web/web/conf"
 	"bj38web/web/controller"
 	"bj38web/web/dao/mysql"
@@ -42,20 +41,20 @@ import (
 	"google.golang.org/grpc"
 )
 
-//@title bj38web
-//@version 0.0.1
-//@description Go Web bj38web
-//@termsOfService http://swagger.io/terms/
+// @title bj38web
+// @version 0.0.1
+// @description Go Web bj38web
+// @termsOfService http://swagger.io/terms/
 //
-//@contact.name author：@ouzhsh
-//@contact.url http://www.swagger.io/support
-//@contact.email support@swagger.io
+// @contact.name author：@ouzhsh
+// @contact.url http://www.swagger.io/support
+// @contact.email support@swagger.io
 //
-//@license.name Apache 2.0
-//@license.url http://www.apache.org/licenses/LICENSE-2.0.html
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 //
-//@host 127.0.0.1:8080
-//@BasePath /api/v1.0
+// @host 127.0.0.1:8080
+// @BasePath /api/v1.0
 func main() {
 	// 加载配置文件
 	err := conf.InitConfig()
@@ -89,12 +88,12 @@ func main() {
 	fmt.Println("mysql连接初始化完毕。。。")
 
 	// 初始化证书认证
-	credentials := tls.Init()
-	if credentials == nil {
-		fmt.Println("初始化证书认证失败:")
-	}
-
-	go startListen(credentials)
+	//credentials := tls.Init()
+	//if credentials == nil {
+	//	fmt.Println("初始化证书认证失败:")
+	//}
+	//
+	go startListen(nil)
 	{
 		osSignals := make(chan os.Signal, 1)
 		signal.Notify(osSignals, os.Interrupt, os.Kill, syscall.SIGTERM, syscall.SIGINT, syscall.SIGKILL)
@@ -124,7 +123,7 @@ func startListen(credentials credentials.TransportCredentials) {
 	ctx, _ := context.WithTimeout(context.Background(), 3*time.Second)
 
 	// 连接 验证码微服务
-	getCaptchaConn, err := RPCConnect(ctx, getCaptchaServiceName, etcdResolver.Scheme(), credentials)
+	getCaptchaConn, err := RPCConnect(ctx, getCaptchaServiceName, etcdResolver.Scheme(), nil)
 	if err != nil {
 		fmt.Printf("服务:%v,RPCConnect连接建立失败,err:%v\n", getCaptchaServiceName, err)
 	}
@@ -133,7 +132,7 @@ func startListen(credentials credentials.TransportCredentials) {
 	captchaClient := getCaptcha.NewGetCaptchaClient(getCaptchaConn)
 
 	// 连接 用户相关微服务
-	userConn, err := RPCConnect(ctx, userServiceName, etcdResolver.Scheme(), credentials)
+	userConn, err := RPCConnect(ctx, userServiceName, etcdResolver.Scheme(), nil)
 	if err != nil {
 		fmt.Printf("服务:%v,RPCConnect连接建立失败,err:%v\n", userServiceName, err)
 	}
@@ -142,7 +141,7 @@ func startListen(credentials credentials.TransportCredentials) {
 	userClient := user.NewUserClient(userConn)
 
 	// 连接 获取地域微服务
-	getAreaConn, err := RPCConnect(ctx, getAreaServiceName, etcdResolver.Scheme(), credentials)
+	getAreaConn, err := RPCConnect(ctx, getAreaServiceName, etcdResolver.Scheme(), nil)
 	if err != nil {
 		fmt.Printf("服务:%v,RPCConnect连接建立失败,err:%v\n", getCaptchaServiceName, err)
 	}
@@ -151,7 +150,7 @@ func startListen(credentials credentials.TransportCredentials) {
 	getAreaClient := getArea.NewGetAreaClient(getAreaConn)
 
 	// 连接 房屋微服务
-	houseConn, err := RPCConnect(ctx, houseServiceName, etcdResolver.Scheme(), credentials)
+	houseConn, err := RPCConnect(ctx, houseServiceName, etcdResolver.Scheme(), nil)
 	if err != nil {
 		fmt.Printf("服务:%v,RPCConnect连接建立失败,err:%v\n", getCaptchaServiceName, err)
 	}
@@ -160,7 +159,7 @@ func startListen(credentials credentials.TransportCredentials) {
 	houseClient := house.NewHouseClient(houseConn)
 
 	// 连接 订单微服务
-	orderConn, err := RPCConnect(ctx, orderServiceName, etcdResolver.Scheme(), credentials)
+	orderConn, err := RPCConnect(ctx, orderServiceName, etcdResolver.Scheme(), nil)
 	if err != nil {
 		fmt.Printf("服务:%v,RPCConnect连接建立失败,err:%v\n", orderServiceName, err)
 	}
@@ -260,11 +259,10 @@ func startListen(credentials credentials.TransportCredentials) {
 func RPCConnect(ctx context.Context, serviceName string, scheme string, credentials credentials.TransportCredentials) (conn *grpc.ClientConn, err error) {
 	// 不能加author
 	addr := fmt.Sprintf("%s:///%s", scheme, serviceName)
-	conn, err = grpc.DialContext(ctx, addr, grpc.WithDefaultServiceConfig(`{"loadBalancingPolicy": "round_robin"}`), grpc.WithTransportCredentials(credentials),
+	conn, err = grpc.DialContext(ctx, addr, grpc.WithDefaultServiceConfig(`{"loadBalancingPolicy": "round_robin"}`), grpc.WithInsecure(),
 		grpc.WithPerRPCCredentials(&interceptor.Authentication{
 			User: "admin",
 			Pwd:  "admin",
 		}))
-
 	return
 }

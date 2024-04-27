@@ -9,4 +9,4 @@ ADD auth ./auth
 EXPOSE 3002
 
 # 需要运行的命令
-ENTRYPOINT ["./getArea_srv"]
+#ENTRYPOINT ["./getArea_srv"]

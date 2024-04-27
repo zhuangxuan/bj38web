@@ -20,7 +20,7 @@
     "paths": {
         "/api/v1.0/areas": {
             "get": {
-                "description": "获取地域信息",
+                "description": "获取地域信息Description",
                 "consumes": [
                     "application/json"
                 ],
@@ -28,9 +28,9 @@
                     "application/json"
                 ],
                 "tags": [
-                    "用户业务接口"
+                    "用户业务接口Tags"
                 ],
-                "summary": "获取地域信息",
+                "summary": "获取地域信息Summary",
                 "parameters": [
                     {
                         "description": "手机号",
@@ -67,7 +67,7 @@
                 "summary": "获取首页轮播图片服务",
                 "responses": {
                     "200": {
-                        "description": "首页轮播图",
+                        "description": "OK",
                         "schema": {
                             "type": "string"
                         }
@@ -120,7 +120,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "房屋信息列表",
+                        "description": "OK",
                         "schema": {
                             "type": "string"
                         }
@@ -161,7 +161,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "信息",
+                        "description": "OK",
                         "schema": {
                             "type": "string"
                         }
@@ -193,7 +193,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "房屋详情",
+                        "description": "OK",
                         "schema": {
                             "type": "string"
                         }
@@ -225,7 +225,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "信息",
+                        "description": "OK",
                         "schema": {
                             "type": "string"
                         }

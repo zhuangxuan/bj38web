@@ -12,10 +12,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// GetArea 获取地域信息
-// @Summary 获取地域信息
-// @Description 获取地域信息
-// @Tags 用户业务接口
+// GetArea 获取地域信息 GetArea
+// @Summary 获取地域信息Summary
+// @Description 获取地域信息Description
+// @Tags 用户业务接口Tags
 // @Accept json
 // @Produce json
 // @Param mobile body string true "手机号"
